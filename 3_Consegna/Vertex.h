@@ -1,5 +1,7 @@
+#include <fstream>
 #ifndef VERTEX_H
 #define VERTEX_H
+
 
 enum State {
     UNVISITED = 0,
@@ -8,14 +10,13 @@ enum State {
 };
 
 class Vertex {
-
     private:
     int val;          // Valore del vertice
     State state;      // Stato del vertice
     Vertex* next;     // Puntatore al prossimo vertice nella lista
+
 public:
     // Definizione dell'enum per lo stato del vertice
-    
 
     // Costruttore
     Vertex(int val) {
@@ -53,6 +54,8 @@ public:
     void setNext(Vertex* nextVertex) {
         this->next = nextVertex;
     }
+
+    void VertexPrint(std::ofstream &output_graph,int n_operazione);
 };
 
 #endif // VERTEX_H

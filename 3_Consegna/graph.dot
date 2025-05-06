@@ -1,0 +1,9 @@
+digraph g
+{ 
+node [shape=none]
+rankdir="LR"
+node_10_1
+[ shape = oval; label = "Idx: 10, val: 10" ];
+node_2_2
+[ shape = oval; label = "Idx: 2, val: 2" ];
+}
