@@ -25,6 +25,12 @@ public:
         this->next = nullptr;
     }
 
+    Vertex(const Vertex& other) {
+        this->val = other.val;
+        this->state = other.state;
+        this->next = nullptr; // Non copiamo il puntatore `next` per evitare aliasing
+    }
+
     // Getter per 'val'
     int getVal() const {
         return val;
@@ -55,7 +61,8 @@ public:
         this->next = nextVertex;
     }
 
-    void VertexPrint(std::ofstream &output_graph,int n_operazione);
+    void VertexPrint(std::ofstream &output_graph);
+
 };
 
 #endif // VERTEX_H
