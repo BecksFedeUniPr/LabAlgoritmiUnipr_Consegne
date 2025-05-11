@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "Stack.h"
 #include <iostream>
 
 // Costruttore
@@ -110,7 +111,23 @@ void Graph::list_print(Vertex& l){
     std::cout << std::endl;
 }
 
-int DFS(Vertex& root){
-    // CODA PER TENERE GLI INDICI DEI NODI NON VISITATI
-    // STACK PER CALCOLARE IL NUMERO DEL CICLO E I NODI COINVOLTI , SE CE NE SONO PIU' DI UNO CON LA STESSA LUNGHEZZA
+int Graph::DFS(Vertex& root){
+    /*
+        Popolo la lista con gli indici di tutti i nodi
+        voglio un counter per la lunghezza massima del ciclo
+    */
+
+    Stack stack;
+
+    root.setState(VISITED);
+
+    stack.push(root.getVal());
+
+    while (!stack.isEmpty())
+    {
+        
+    }
+    
+
+    // STACK PER CALCOLARE IL NUMERO DEL CICLO E I NODI COINVOLTI , SE CE NE SONO PIU' DI UNO CON LA STESSA LUNGHEZZA ? 
 }

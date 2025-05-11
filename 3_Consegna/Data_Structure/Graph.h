@@ -11,6 +11,7 @@ private:
     int capacity;
 
     void resize(int newCapacity);
+    
 
 public:
     Graph(int initialCapacity = 10);
