@@ -2,18 +2,22 @@ digraph g
 { 
 10
 [ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
 ];
 10 -> 2;
 2
 [ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
 ];
 2 -> 10;
 2 -> 12;
 12
 [ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
 ];
 50
 [ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
 ];
 50 -> 2;
 

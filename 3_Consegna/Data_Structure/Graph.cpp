@@ -111,11 +111,8 @@ void Graph::list_print(Vertex& l){
     std::cout << std::endl;
 }
 
-int Graph::DFS(Vertex& root){
-    /*
-        Popolo la lista con gli indici di tutti i nodi
-        voglio un counter per la lunghezza massima del ciclo
-    */
+/* int Graph::DFS(Vertex& root){
+
 
     Stack stack;
 
@@ -131,3 +128,4 @@ int Graph::DFS(Vertex& root){
 
     // STACK PER CALCOLARE IL NUMERO DEL CICLO E I NODI COINVOLTI , SE CE NE SONO PIU' DI UNO CON LA STESSA LUNGHEZZA ? 
 }
+ */
