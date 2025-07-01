@@ -1,5 +1,18 @@
 digraph g
 { 
+1
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+5
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+5 -> 1;
+100
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
 10
 [ shape = oval; 
 fillcolor = "#bbbbbb"; style=filled; 
@@ -20,3 +33,24 @@ fillcolor = "#bbbbbb"; style=filled;
 fillcolor = "#bbbbbb"; style=filled; 
 ];
 50 -> 2;
+20
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+20 -> 30;
+30
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+30 -> 40;
+40
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+40 -> 20;
+999
+[ shape = oval; 
+fillcolor = "#bbbbbb"; style=filled; 
+];
+
+}
