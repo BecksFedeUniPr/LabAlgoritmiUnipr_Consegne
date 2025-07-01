@@ -1,0 +1,1 @@
+g++ 2025_03_28_Consegna2.cpp -o ./2025_03_28_Consegna2.o

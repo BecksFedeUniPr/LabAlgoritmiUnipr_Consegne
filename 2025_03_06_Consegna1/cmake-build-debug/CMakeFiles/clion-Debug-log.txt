@@ -1,0 +1,44 @@
+"C:\Program Files\JetBrains\CLion 2023.1.3\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.1.3/bin/ninja/win/x64/ninja.exe" -G Ninja -S "C:\Users\FedericoBecchi\OneDrive - Università degli Studi di Parma\Uni\Informatica\2024_2025\SecondoSemestre\LaboratorioAlgoritmi\Consegne\2025_03_06_Consegna1" -B "C:\Users\FedericoBecchi\OneDrive - Università degli Studi di Parma\Uni\Informatica\2024_2025\SecondoSemestre\LaboratorioAlgoritmi\Consegne\2025_03_06_Consegna1\cmake-build-debug"
+-- The C compiler identification is GNU 11.2.0
+-- The CXX compiler identification is GNU 11.2.0
+-- Detecting C compiler ABI info
+CMake Warning in C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-32x6gf/CMakeLists.txt:
+  The object file directory
+
+    C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-32x6gf/CMakeFiles/cmTC_f0ec0.dir/./
+
+  has 249 characters.  The maximum full path to an object file is 250
+  characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+
+    CMakeCCompilerABI.c.obj
+
+  cannot be safely placed under this directory.  The build may not work
+  correctly.
+
+
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/JetBrains/CLion 2023.1.3/bin/mingw/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+CMake Warning in C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-y1jla4/CMakeLists.txt:
+  The object file directory
+
+    C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-y1jla4/CMakeFiles/cmTC_42ed8.dir/./
+
+  has 249 characters.  The maximum full path to an object file is 250
+  characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+
+    CMakeCXXCompilerABI.cpp.obj
+
+  cannot be safely placed under this directory.  The build may not work
+  correctly.
+
+
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/JetBrains/CLion 2023.1.3/bin/mingw/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug

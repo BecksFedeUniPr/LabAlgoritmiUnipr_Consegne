@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "2025_03_06_Consegna1",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "2025_03_06_Consegna1::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-2025_03_06_Consegna1-Debug-d8bd6a762d7582ff653b.json",
+					"name" : "2025_03_06_Consegna1",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/FedericoBecchi/OneDrive - Universit\u00e0 degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug",
+		"source" : "C:/Users/FedericoBecchi/OneDrive - Universit\u00e0 degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

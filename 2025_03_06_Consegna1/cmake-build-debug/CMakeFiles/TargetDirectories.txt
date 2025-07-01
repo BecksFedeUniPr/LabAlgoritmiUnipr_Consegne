@@ -1,0 +1,3 @@
+C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/2025_03_06_Consegna1.dir
+C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/FedericoBecchi/OneDrive - Università degli Studi di Parma/Uni/Informatica/2024_2025/SecondoSemestre/LaboratorioAlgoritmi/Consegne/2025_03_06_Consegna1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
