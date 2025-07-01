@@ -1,4 +1,5 @@
 #include "Vertex.h"
+#include "Stack.h"
 #include <fstream>
 
 #ifndef GRAPH
@@ -11,7 +12,7 @@ private:
     int capacity;
 
     void resize(int newCapacity);
-    
+    void DFS(int node, bool* visited, bool* inStack, Stack& path, Stack& bestCycle, int& bestLen);
 
 public:
     Graph(int initialCapacity = 10);
@@ -21,7 +22,7 @@ public:
     void edgePrint(std::ofstream &buffer ,const Vertex& from , const Vertex& to);
     void graph_print(std::ofstream &buffer);
     void list_print(Vertex& list);
-    int DFS(Vertex& root);
+    void findLongestCycle();
 };
 
 #endif

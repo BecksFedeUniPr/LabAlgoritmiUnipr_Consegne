@@ -24,6 +24,8 @@ int main()
 
     graph.graph_print(output_graph);
 
+    graph.findLongestCycle();
+
     /// preparo footer e chiudo file
     output_graph << "\n}" << std::endl;
     output_graph.close();

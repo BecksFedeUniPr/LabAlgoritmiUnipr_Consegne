@@ -111,21 +111,93 @@ void Graph::list_print(Vertex& l){
     std::cout << std::endl;
 }
 
-/* int Graph::DFS(Vertex& root){
+void Graph::DFS(int node, bool* visited, bool* inStack, Stack& path, Stack& bestCycle, int& bestLen) {
+    visited[node] = true;
+    inStack[node] = true;
+    path.push(node);
 
+    Vertex* currentVertex = edges[node]; //Trovo nodo di indice node
+    Vertex* neighbor = currentVertex->getNext(); // prendo il primo vicino
 
-    Stack stack;
-
-    root.setState(VISITED);
-
-    stack.push(root.getVal());
-
-    while (!stack.isEmpty())
-    {
+    // Visito tutti i vicini
+    while (neighbor != nullptr) { // Non altri vicini
+        int neighborVal = neighbor->getVal();
+        int neighborIndex = -1;
         
-    }
-    
+        // Trova l'indice del nodo vicino
+        for (int i = 0; i < numVertices; i++) {
+            if (edges[i]->getVal() == neighborVal) {
+                neighborIndex = i;
+                break;
+            }
+        }
 
-    // STACK PER CALCOLARE IL NUMERO DEL CICLO E I NODI COINVOLTI , SE CE NE SONO PIU' DI UNO CON LA STESSA LUNGHEZZA ? 
+        if (!visited[neighborIndex]) {
+            DFS(neighborIndex, visited, inStack, path, bestCycle, bestLen);
+        } else if (inStack[neighborIndex]) { // Ciclo trovato
+            Stack tempStack;
+
+            while(!path.isEmpty()){
+                int last_value = path.pop();
+                tempStack.push(last_value);
+                if(last_value == neighborVal) // Arrivo al vertice a cui è iniziato il ciclo
+                    break;
+            }
+
+            // Se questo ciclo è più lungo del precedente, aggiornalo
+            if (tempStack.getSize() > bestLen) {
+                bestLen = tempStack.getSize();
+                bestCycle.~Stack(); //Svuota il ciclo precedente
+                while (!tempStack.isEmpty()) {
+                    int value = tempStack.pop(); 
+                    bestCycle.push(value); // Costruisco bestcycle
+                    path.push(value); // Ricostruisco il path
+                }
+            }
+        }
+        neighbor = neighbor->getNext();
+    }
+
+    inStack[node] = false;
+    path.pop();
 }
- */
+
+void Graph::findLongestCycle() {
+    bool* visited = new bool[numVertices]();
+    bool* inStack = new bool[numVertices]();
+    Stack path;
+    Stack bestCycle;
+    int bestLen = 0;
+
+    // Visita ogni componente connessa del grafo
+    for (int i = 0; i < numVertices; ++i) {
+        if (!visited[i]) {
+            DFS(i, visited, inStack, path, bestCycle, bestLen);
+        }
+    }
+
+    // Stampa i risultati
+    if (bestLen > 0) {
+        std::cout << "Lunghezza del ciclo più lungo: " << bestLen << std::endl;
+        std::cout << "Nodi del ciclo: ";
+        
+        // Crea uno stack temporaneo per invertire l'ordine
+        Stack tempStack;
+        while (!bestCycle.isEmpty()) {
+            tempStack.push(bestCycle.pop());
+        }
+        
+        // Stampa i nodi nel corretto ordine
+        while (!tempStack.isEmpty()) {
+            int nodeIndex = tempStack.pop();
+            std::cout << edges[nodeIndex]->getVal() << " ";
+        }
+        std::cout << std::endl;
+    } else {
+        std::cout << "Nessun ciclo trovato nel grafo." << std::endl;
+    }
+
+    // Pulizia della memoria
+    delete[] visited;
+    delete[] inStack;
+}

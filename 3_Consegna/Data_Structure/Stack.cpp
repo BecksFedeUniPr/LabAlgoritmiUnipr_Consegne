@@ -12,22 +12,26 @@ Stack::~Stack() {
     }
 }
 
+
 void Stack::push(const int value) {
-    Node* newNode = new Node{value, top};
-    top = newNode;
+    Vertex* newVertex = new Vertex(value);
+    newVertex->setNext(top);
+    top = newVertex;
     size++;
 }
 
 int Stack::pop() {
     if (isEmpty()) {
-        //TODO
+        throw std::runtime_error("Stack vuoto");
     }
-
-    Node* temp = top;
-    int value = temp->value;
-    top = top->next;
+    
+    Vertex* temp = top;
+    int value = temp->getVal();
+    top = temp->getNext();
     delete temp;
     size--;
+    if(size == 0)
+        top = nullptr;
     return value;
 }
 
