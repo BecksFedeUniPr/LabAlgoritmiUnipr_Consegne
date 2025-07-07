@@ -100,8 +100,8 @@ bool heap_isEmpty(MinHeap* h) {
 //////////////////////////////////////////////////
 
 typedef struct node {
-    int val;
-    float w; // Weight
+    int idx;   // indice nodo
+    float w;
     struct node *next;
 } node_t;
 
@@ -117,7 +117,7 @@ list_t *list_new(void) {
 
 void list_insert_front(list_t *l, int elem, float w) {
     node_t *new_node = new node_t;
-    new_node->val = elem;
+    new_node->idx = elem;
     new_node->w = w;
     new_node->next = l->head;
     l->head = new_node;
@@ -126,7 +126,7 @@ void list_insert_front(list_t *l, int elem, float w) {
 void list_print(list_t *l) {
     node_t *current = l->head;
     while (current != NULL) {
-        printf("%d w:%f, ", current->val, current->w);
+        printf("%d w:%f, ", current->idx, current->w);
         current = current->next;
     }
     printf("\n");
@@ -161,7 +161,7 @@ void shortest_path(int n) {
 
         node_t *elem = E[best_idx]->head;
         while (elem != NULL) {
-            int v = elem->val;
+            int v = elem->idx;
             float alt = V_dist[best_idx] + elem->w;
             if (alt < V_dist[v]) {
                 V_dist[v] = alt;
