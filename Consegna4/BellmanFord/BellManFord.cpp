@@ -2,23 +2,13 @@
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 using namespace std;
 
-// compilazione: g++ lezione17-grafi-dijkstra.cpp
-//
-// Obiettivo:
-// 1) grafo con archi pesati
-// 2) implementazione shortest path
-
 #define INFTY 1000000
 
-int ct_swap = 0;
-int ct_cmp = 0;
-int ct_op = 0; /// operazioni per la ricerca
 
 int max_dim = 0;
 int ntests = 1;
@@ -29,7 +19,6 @@ int graph = 0;
 /// file di output per grafo
 ofstream output_graph;
 int n_operazione = 0; /// contatore di operazioni per visualizzare i vari step
-
 int ct_visit = 0; // contatore durante visita
 
 //////////////////////////////////////////////////
@@ -38,9 +27,9 @@ int ct_visit = 0; // contatore durante visita
 
 /// struct per il nodo della lista
 typedef struct node {
-    int val; /// prossimo nodo
-    float w; /// peso dell'arco
-    struct node *next;
+    int idx; /// prossimo nodo (era: val)
+    float w;
+    node *next;
 } node_t;
 
 /// struct per la lista
@@ -57,7 +46,6 @@ typedef struct list {
 //////////////////////////////////////////////////
 
 int *V;          // elenco dei nodi del grafo
-int *V_visitato; // nodo visitato?
 int *V_prev;     // nodo precedente dalla visita
 float *V_dist;   // distanza da sorgente
 
@@ -75,7 +63,7 @@ int n_nodi;
 /// L'alternativa corretta' e' utilizzare %p di printf: es. printf("%p\n",(void*) node);
 /// con lo svantaggio di avere interi a 64 bit poco leggibili
 
-list_t *global_ptr_ref = NULL; /// usato per memorizzare il puntatore alla prima lista allocata
+list_t *global_ptr_ref = nullptr; /// usato per memorizzare il puntatore alla prima lista allocata
 
 int get_address(void *node) {
     return (int)((long)node - (long)global_ptr_ref);
@@ -92,10 +80,8 @@ void node_print(int n) {
     output_graph << "node_" << n << "_" << n_operazione << endl;
     output_graph << "[ shape = oval; ";
 
-    if (V_visitato[n] == 1)
-        output_graph << "penwidth = 4; ";
 
-    float col = V_dist[n] / max_d; /// distanza in scala 0..1
+    float col =abs( V_dist[n] / max_d); /// distanza in scala 0..1
     output_graph << "fillcolor = \"0.0 0.0 " << col / 2 + 0.5 << "\"; style=filled; ";
     if (V_dist[n] < INFTY)
         output_graph << "label = "
@@ -107,7 +93,7 @@ void node_print(int n) {
     node_t *elem = E[n]->head;
     while (elem != NULL) { /// disegno arco
         output_graph << "node_" << n << "_" << n_operazione << " -> ";
-        output_graph << "node_" << elem->val << "_" << n_operazione << " [ label=\"" << elem->w << "\", len=" << elem->w / 100 * 10 << " ]\n";
+        output_graph << "node_" << elem->idx << "_" << n_operazione << " [ label=\"" << elem->w << "\", len=" << elem->w / 100 * 10 << " ]\n";
         elem = elem->next;
     }
 
@@ -131,6 +117,7 @@ void node_print(int n) {
     }
 }
 
+
 void graph_print() {
     for (int i = 0; i < n_nodi; i++)
         node_print(i);
@@ -140,24 +127,24 @@ void graph_print() {
 void list_print(list_t *l) {
     printf("Stampa lista\n");
 
-    if (l->head == NULL) {
+    if (l->head == nullptr) {
         printf("Lista vuota\n");
     } else {
         node_t *current = l->head;
 
-        while (current != NULL) {
+        while (current != nullptr) {
             if (!details)
-                printf("%d w:%f, ", current->val, current->w);
+                printf("%d w:%f, ", current->idx, current->w);
             else { /// stampa completa
-                if (current->next == NULL)
+                if (current->next == nullptr)
                     printf("allocato in %d [Val: %d, W: %f, Next: NULL]\n",
                            get_address(current),
-                           current->val,
+                           current->idx,
                            current->w);
                 else
                     printf("allocato in %d [Val: %d, W: %f, Next: %d]\n",
                            get_address(current),
-                           current->val,
+                           current->idx,
                            current->w,
                            get_address(current->next));
             }
@@ -167,13 +154,13 @@ void list_print(list_t *l) {
     }
 }
 
-list_t *list_new(void) {
-    list_t *l = new list;
+list_t* list_new(void) {
+    list_t* l = new list_t();
     if (details) {
         printf("Lista creata\n");
     }
 
-    l->head = NULL; //// perche' non e' l.head ?
+    l->head = nullptr;
     if (details) {
         printf("Imposto a NULL head\n");
     }
@@ -183,10 +170,10 @@ list_t *list_new(void) {
 
 void list_insert_front(list_t *l, int elem, float w) {
     /// inserisce un elemento all'inizio della lista
-    node_t *new_node = new node_t;
-    new_node->next = NULL;
+    node_t* new_node = new node_t;
+    new_node->next = nullptr;
 
-    new_node->val = elem;
+    new_node->idx = elem;
     new_node->w = w;
 
     new_node->next = l->head;
@@ -235,108 +222,41 @@ void print_array_graph(int *A, int n, string c, int a, int l, int m, int r) {
     output_graph << ">];" << endl;
 }
 
-void shortest_path(int n) {
+void BellmanFord(float *V_dist , int* V_prev , list_t** E , int source) {
+    for (int i = 0; i < n_nodi; i++) {
+            V_dist[i] = INFTY;
+            V_prev[i] = -1;
+    }
 
-    /*      V_visitato[i]=0;  // flag = non visitato
-      V_prev[i]=-1;  // non c'e' precedente
-      V_dist[i]=INFTY;  // infinito
-    */
+    V_dist[source] = 0;
 
-    V_dist[n] = 0;
-
-    int q_size = n_nodi; /// contatore degli elementi in coda (V_visitato)
-
-    while (q_size != 0) {
-
-        graph_print();
-
-        /// trova il minimo in coda
-        float best_dist = INFTY;
-        int best_idx = -1;
-        for (int i = 0; i < n_nodi; i++) {
-            if (V_visitato[i] == 0 && V_dist[i] < best_dist) { /// nodo e' in coda e e' migliore del nodo corrente
-                best_dist = V_dist[i];
-                best_idx = i;
-            }
-        }
-        if (best_idx >= 0) {
-            /// estrai dalla coda
-            int u = best_idx;
-            V_visitato[u] = 1;
-            q_size--;
-
-            /// esploro la lista di adiacenza
-            node_t *elem = E[u]->head;
-            while (elem != NULL) {
-                int v = elem->val; /// arco u --> v
-
-                /// alt ← dist[u] + Graph.Edges(u, v)
-                float alt = V_dist[u] + elem->w; /// costo per arrivare al nuovo nodo passando per u
-                if (alt < V_dist[v]) {           // il percorso sorgente ---> u --> v migliora il percorso attuale sorgente --> v
-                    V_dist[v] = alt;
-                    V_prev[v] = u;
+    for (int i = 0; i < n_nodi - 1; i++) {
+        for (int j = 0; j < n_nodi; j++) {
+            node_t* elem = E[j]->head;
+            while (elem != nullptr) {
+                if (V_dist[j] + elem->w < V_dist[elem->idx]) {
+                    V_dist[elem->idx] = V_dist[j] + elem->w;
+                    V_prev[elem->idx] = j;
                 }
                 elem = elem->next;
             }
-
-        } else { /// coda non vuota E nodi non raggiungibili ---> FINITO
-            q_size = 0;
         }
     }
 
-    graph_print();
-}
-
-int DFS(int n) {
-
-    graph_print();
-
-    if (details)
-        printf("DFS: lavoro sul nodo %d (visitato %d)\n", n, V_visitato[n]);
-
-    if (V_visitato[n])
-        return 0;
-
-    V_visitato[n] = 1; // prima volta che incontro questo nodo
-
-    if (details)
-        printf("Visito il nodo %d (val %d)\n", n, V[n]);
-
-    /// esploro la lista di adiacenza
-    node_t *elem = E[n]->head;
-    while (elem != NULL) { /// elenco tutti i nodi nella lista
-
-        /// espando arco  n --> elem->val
-        /// quindi DFS(elem->val)
-        output_graph << "dfs_" << n << " -> dfs_" << elem->val;
-        if (V_visitato[elem->val])
-            output_graph << "[color=gray, label = \"" << ct_visit++ << "\"]";
-        else
-            output_graph << "[color=red, label = \"" << ct_visit++ << "\"]";
-        output_graph << endl;
-
-        if (V_visitato[elem->val] == 1)
-            return 1;
-
-        int ret = DFS(elem->val);
-
-        if (ret == 1)
-            return 1;
-
-        elem = elem->next;
+    for (int i = 0; i < n_nodi; i++) {
+        node_t* elem = E[i]->head;
+        while (elem != nullptr) {
+            if (V_dist[i] + elem->w < V_dist[elem->idx]) {
+                printf("Errore: ciclo negativo\n");
+            }
+            elem = elem->next;
+        }
     }
-
-    V_visitato[n] = 2; // abbandono il nodo per sempre
-    return 0;
 }
 
-void swap(int &a, int &b) {
-    int tmp = a;
-    a = b;
-    b = tmp;
-    /// aggiorno contatore globale di swap
-    ct_swap++;
-}
+void test1();
+
+void test2();
 
 int parse_cmd(int argc, char **argv) {
     /// controllo argomenti
@@ -364,10 +284,9 @@ int parse_cmd(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    int i, test;
 
     // init random
-    srand((unsigned)time(NULL));
+    srand((unsigned)time(0));
 
     if (parse_cmd(argc, argv))
         return 1;
@@ -379,70 +298,30 @@ int main(int argc, char **argv) {
         output_graph << "{ " << endl;
         output_graph << "node [shape=none]" << endl;
         output_graph << "rankdir=\"LR\"" << endl;
-        ;
         //    output_graph << "edge[tailclip=false,arrowtail=dot];"<<endl;
     }
 
-    int N = 10;
-    n_nodi = N * N;
-
-    n_nodi = 10;
-
-    //// init nodi
+    n_nodi = 5;
     V = new int[n_nodi];
-    V_visitato = new int[n_nodi];
     V_prev = new int[n_nodi];
     V_dist = new float[n_nodi];
+    E = new list_t *[n_nodi];
 
-    //// init archi
-    E = new list_t *[n_nodi]; //(list_t**)malloc(n_nodi*sizeof(list_t*));
-
-    // costruzione grafo
     for (int i = 0; i < n_nodi; i++) {
-        V[i] = 2 * i;
-        V_visitato[i] = 0; // flag = non visitato
-        V_prev[i] = -1;    // non c'e' precedente
-        V_dist[i] = INFTY; // infinito
-
+        V_prev[i] = -1;
+        V_dist[i] = INFTY;
         E[i] = list_new();
-
-        if (i == 0)
-            global_ptr_ref = E[i];
-
-        int x = i % N;
-        int y = i / N;
-
-        // for (int dx = -2; dx <= 2; dx += 1)
-        //     for (int dy = -2; dy <= 2; dy += 1)
-        //         if (abs(dx) + abs(dy) >= 1 &&
-        //             abs(dx) + abs(dy) <= 1
-        //             ) { // limito gli archi ai vicini con 1 variazione assoluta sulle coordinate
-
-        //             int nx = x + dx;
-        //             int ny = y + dy;
-
-        //             if (nx >= 0 && nx < N &&
-        //                 ny >= 0 && ny < N) { /// coordinate del nuovo nodo sono nel grafo
-
-        //                 int j = nx + N * ny; /// indice del nuovo nodo
-        //                 list_insert_front(E[i], j, 15 * sqrt(dx*dx + dy*dy));
-        //             }
-        //         }
     }
 
-    int partenza = 0;
-    int arrivo = n_nodi - 1;
-    int w_max = 100;
-
-    for (int i = 0; i < n_nodi - 1; i++) {
-        /// arco costoso
-        list_insert_front(E[i], arrivo, w_max - 2 * i);
-        /// arco 1
-        if (i > 0)
-            list_insert_front(E[i-1], i , 1);
-    }
-
-    graph_print();
+    // Aggiungi archi normali (esempio)
+    list_insert_front(E[0], 1, 2);   // 0 → 1 (peso 2)
+    list_insert_front(E[1], 2, 3);   // 1 → 2 (peso 3)
+    list_insert_front(E[2], 3, 2);   // 2 → 3 (peso 2)
+    list_insert_front(E[3], 4, 2);   // 3 → 4 (peso 2)
+    list_insert_front(E[1], 4, 7);   // 1 → 4 (peso 7)
+    // **Arco negativo**
+    list_insert_front(E[3], 1, -4);  // 3 → 1 (peso -4)
+    global_ptr_ref = E[0];
 
     for (int i = 0; i < n_nodi; i++) {
         printf("Sono il nodo di indice %d nell'array\n", i);
@@ -451,8 +330,74 @@ int main(int argc, char **argv) {
         list_print(E[i]);
     }
 
-    shortest_path(0);
-    // shortest_path(44);
+    output_graph << "subgraph cluster_" << n_operazione << " {\n";
+    output_graph << "label = \"Grafo " << n_operazione + 1 << "\";\n";
+    graph_print();
+    output_graph << "}\n";
+    BellmanFord(V_dist, V_prev, E, 0);
+    output_graph << "subgraph cluster_" << n_operazione << " {\n";
+    output_graph << "label = \"Grafo " << n_operazione + 1 << "\";\n";
+    graph_print();
+    output_graph << "}\n";
+
+
+    delete []  V;
+    delete [] V_prev;
+    delete [] V_dist;
+    for (int i = 0; i < n_nodi ; i++){
+        delete E[i];
+    }
+    delete  [] E;
+
+
+    n_nodi = 5;
+    V = new int[n_nodi];
+    V_prev = new int[n_nodi];
+    V_dist = new float[n_nodi];
+    E = new list_t *[n_nodi];
+
+
+    for (int i = 0; i < n_nodi; i++) {
+        V_prev[i] = -1;
+        V_dist[i] = INFTY;
+        E[i] = list_new();
+    }
+
+    // Archi normali
+    list_insert_front(E[0], 1, 4);    // 0 → 1
+    list_insert_front(E[1], 2, 3);    // 1 → 2
+    list_insert_front(E[1], 3, 2);    // 1 → 3
+
+    // Ciclo negativo diverso dal primo
+    list_insert_front(E[2], 4, -2);   // 2 → 4
+    list_insert_front(E[4], 2, -3);   // 4 → 2   (ciclo negativo: 2 → 4 → 2 peso -5)
+
+    // Un arco extra fuori dal ciclo negativo
+    list_insert_front(E[3], 4, 1);    // 3 → 4
+
+
+    global_ptr_ref = E[0];
+
+    output_graph << "subgraph cluster_" << n_operazione << " {\n";
+    output_graph << "label = \"Grafo " << n_operazione + 1 << "\";\n";
+    graph_print();
+    output_graph << "}\n";
+    BellmanFord(V_dist, V_prev, E, 0);
+    output_graph << "subgraph cluster_" << n_operazione << " {\n";
+    output_graph << "label = \"Grafo " << n_operazione + 1 << "\";\n";
+    graph_print();
+    output_graph << "}\n";
+
+
+    delete []  V;
+    delete [] V_prev;
+    delete [] V_dist;
+
+    for (int i = 0; i < n_nodi; i++) {
+        delete E[i];
+    }
+
+    delete  [] E;
 
     if (graph) {
         /// preparo footer e chiudo file

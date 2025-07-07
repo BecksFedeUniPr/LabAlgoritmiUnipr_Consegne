@@ -1,0 +1,89 @@
+digraph g
+{ 
+node [shape=none]
+rankdir="LR"
+subgraph cluster_0 {
+label = "Grafo 1";
+node_0_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 0, dist: INF" ];
+node_0_0 -> node_1_0 [ label="2", len=0.2 ]
+node_1_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 1, dist: INF" ];
+node_1_0 -> node_4_0 [ label="7", len=0.7 ]
+node_1_0 -> node_2_0 [ label="3", len=0.3 ]
+node_2_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 2, dist: INF" ];
+node_2_0 -> node_3_0 [ label="2", len=0.2 ]
+node_3_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 3, dist: INF" ];
+node_3_0 -> node_1_0 [ label="-4", len=-0.4 ]
+node_3_0 -> node_4_0 [ label="2", len=0.2 ]
+node_4_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 4, dist: INF" ];
+}
+subgraph cluster_1 {
+label = "Grafo 2";
+node_0_1
+[ shape = oval; fillcolor = "0.0 0.0 0.5"; style=filled; label = "Idx: 0, dist: 0" ];
+node_0_1 -> node_1_1 [ label="2", len=0.2 ]
+node_1_1
+[ shape = oval; fillcolor = "0.0 0.0 0.611111"; style=filled; label = "Idx: 1, dist: 2" ];
+node_1_1 -> node_4_1 [ label="7", len=0.7 ]
+node_1_1 -> node_2_1 [ label="3", len=0.3 ]
+node_1_1 -> node_0_1 [ color=blue, penwidth=5, len=0.1 ]
+node_2_1
+[ shape = oval; fillcolor = "0.0 0.0 0.777778"; style=filled; label = "Idx: 2, dist: 5" ];
+node_2_1 -> node_3_1 [ label="2", len=0.2 ]
+node_2_1 -> node_1_1 [ color=blue, penwidth=5, len=0.1 ]
+node_3_1
+[ shape = oval; fillcolor = "0.0 0.0 0.888889"; style=filled; label = "Idx: 3, dist: 7" ];
+node_3_1 -> node_1_1 [ label="-4", len=-0.4 ]
+node_3_1 -> node_4_1 [ label="2", len=0.2 ]
+node_3_1 -> node_2_1 [ color=blue, penwidth=5, len=0.1 ]
+node_4_1
+[ shape = oval; fillcolor = "0.0 0.0 1"; style=filled; label = "Idx: 4, dist: 9" ];
+node_4_1 -> node_1_1 [ color=blue, penwidth=5, len=0.1 ]
+}
+subgraph cluster_2 {
+label = "Grafo 3";
+node_0_2
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 0, dist: INF" ];
+node_0_2 -> node_1_2 [ label="4", len=0.4 ]
+node_1_2
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 1, dist: INF" ];
+node_1_2 -> node_3_2 [ label="2", len=0.2 ]
+node_1_2 -> node_2_2 [ label="3", len=0.3 ]
+node_2_2
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 2, dist: INF" ];
+node_2_2 -> node_4_2 [ label="-2", len=-0.2 ]
+node_3_2
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 3, dist: INF" ];
+node_3_2 -> node_4_2 [ label="1", len=0.1 ]
+node_4_2
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 4, dist: INF" ];
+node_4_2 -> node_2_2 [ label="-3", len=-0.3 ]
+}
+subgraph cluster_3 {
+label = "Grafo 4";
+node_0_3
+[ shape = oval; fillcolor = "0.0 0.0 0.5"; style=filled; label = "Idx: 0, dist: 0" ];
+node_0_3 -> node_1_3 [ label="4", len=0.4 ]
+node_1_3
+[ shape = oval; fillcolor = "0.0 0.0 0.833333"; style=filled; label = "Idx: 1, dist: 4" ];
+node_1_3 -> node_3_3 [ label="2", len=0.2 ]
+node_1_3 -> node_2_3 [ label="3", len=0.3 ]
+node_1_3 -> node_0_3 [ color=blue, penwidth=5, len=0.1 ]
+node_2_3
+[ shape = oval; fillcolor = "0.0 0.0 1.58333"; style=filled; label = "Idx: 2, dist: -13" ];
+node_2_3 -> node_4_3 [ label="-2", len=-0.2 ]
+node_2_3 -> node_4_3 [ color=blue, penwidth=5, len=0.1 ]
+node_3_3
+[ shape = oval; fillcolor = "0.0 0.0 1"; style=filled; label = "Idx: 3, dist: 6" ];
+node_3_3 -> node_4_3 [ label="1", len=0.1 ]
+node_3_3 -> node_1_3 [ color=blue, penwidth=5, len=0.1 ]
+node_4_3
+[ shape = oval; fillcolor = "0.0 0.0 1.33333"; style=filled; label = "Idx: 4, dist: -10" ];
+node_4_3 -> node_2_3 [ label="-3", len=-0.3 ]
+node_4_3 -> node_2_3 [ color=blue, penwidth=5, len=0.1 ]
+}
+}
