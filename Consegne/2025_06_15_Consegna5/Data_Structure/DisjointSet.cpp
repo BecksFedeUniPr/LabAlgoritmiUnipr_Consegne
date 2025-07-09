@@ -11,20 +11,20 @@ void DisjointSet::makeSet(int n) {
 
 int DisjointSet::find(int x) {
     if (parent[x] != x)
-        parent[x] = find(parent[x]); // Path compression
+        parent[x] = find(parent[x]);
     return parent[x];
 }
 
 void DisjointSet::unite(int x, int y) {
     int rx = find(x);
     int ry = find(y);
-    if (rx == ry) return;
-    if (rank[rx] < rank[ry]) {
+    if (rx == ry) return; // Sono la stessa classe di nodi
+    if (rank[rx] < rank[ry]) { // Metto Rx sotto Ry
         parent[rx] = ry;
-    } else if (rank[ry] < rank[rx]) {
+    } else if (rank[ry] < rank[rx]) { // Metto Rx sopra ry
         parent[ry] = rx;
     } else {
-        parent[ry] = rx;
+        parent[ry] = rx; // Stesso Rank scelgo indifferentemente
         rank[rx]++;
     }
 }

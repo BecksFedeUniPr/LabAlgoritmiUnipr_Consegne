@@ -1,16 +1,18 @@
-#include <iostream>
 
 #include "Data_Structure/Graph.h"
 
 int main() {
 
     Graph g;
-
-    g.loadFromFile("file_input/graph.txt");
+    // Lettura Grafo file
+    g.loadFromFile("file_input/graph_input.txt");
+    // Scrittura grafo su dot
     g.printGraph("./dot_output/graph.dot");
 
-    Graph* g_kruskal = g.Kruskal();
-    g_kruskal->printGraph("./dot_output/graph_kruskal.dot");
-    delete g_kruskal;
+    // Appllico Kruskal su g e ritorno il suo MST
+    Graph* MST_G = g.Kruskal();
+    // Scrivo su dot MST
+    MST_G->printGraph("./dot_output/graph_kruskal.dot");
+    delete MST_G; // Dealloco MST
     return 0;
 }
