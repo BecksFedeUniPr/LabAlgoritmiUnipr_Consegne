@@ -29,35 +29,41 @@ void Graph::addNode() {
 }
 
 void Graph::merge(Edge arr[], int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    int n_l = mid - left + 1; // Numero di elementi parte sinistra
+    int n_r = right - mid; // Numero di elementi parte destra
 
     // Array temporanei
     Edge L[MAX_EDGES], R[MAX_EDGES];
-    for (int i = 0; i < n1; ++i)
+    for (int i = 0; i < n_l; ++i)
         L[i] = arr[left + i];
-    for (int j = 0; j < n2; ++j)
+    for (int j = 0; j < n_r; ++j)
         R[j] = arr[mid + 1 + j];
 
     // Merge degli array temporanei
     int i = 0, j = 0, k = left;
-    while (i < n1 && j < n2) {
+    while (i < n_l && j < n_r) {
         if (L[i].weight <= R[j].weight) {
             arr[k++] = L[i++];
         } else {
             arr[k++] = R[j++];
         }
     }
-    while (i < n1) arr[k++] = L[i++];
-    while (j < n2) arr[k++] = R[j++];
+    while (i < n_l)
+        arr[k++] = L[i++];
+    while (j < n_r)
+        arr[k++] = R[j++];
 }
 
 // Merge sort ricorsivo
 void Graph::mergeSort(Edge arr[], int left, int right) {
     if (left < right) {
+        //Calcolo punto medio
         int mid = (left + right) / 2;
+        // Chiamata ricorsione parte sinistra
         mergeSort(arr, left, mid);
+        // Chiamata ricorsione parte destra
         mergeSort(arr, mid + 1, right);
+        // Merge delle due parti sinistra e destra ordinate
         merge(arr, left, mid, right);
     }
 }
