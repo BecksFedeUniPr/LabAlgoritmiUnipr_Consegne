@@ -1,4 +1,3 @@
-
 #include "Data_Structure/Graph.h"
 
 int main() {
@@ -13,6 +12,6 @@ int main() {
     Graph* MST_G = g.Kruskal();
     // Scrivo su dot MST
     MST_G->printGraph("./dot_output/graph_kruskal.dot");
-    delete MST_G; // Dealloco MST
+    delete MST_G;
     return 0;
 }

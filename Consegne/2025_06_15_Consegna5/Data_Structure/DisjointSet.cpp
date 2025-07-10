@@ -16,9 +16,10 @@ int DisjointSet::find(int x) {
 }
 
 void DisjointSet::unite(int x, int y) {
-    int rx = find(x);
-    int ry = find(y);
+    int rx = find(x); // Rappresemtante di x
+    int ry = find(y); // Rappresentante di y
     if (rx == ry) return; // Sono la stessa classe di nodi
+    // Viene fatta questa scelta per non aumentare velocemente l'altezza dell'albero
     if (rank[rx] < rank[ry]) { // Metto Rx sotto Ry
         parent[rx] = ry;
     } else if (rank[ry] < rank[rx]) { // Metto Rx sopra ry

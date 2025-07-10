@@ -255,33 +255,28 @@ void insert_random_rec(node_t *n) {
         insert_random_rec(n->R);
 }
 
-bool isCompleteTree(node_t* root) {
-    if (root == nullptr) {
-        return true; // An empty tree is complete
-    }
-
-    std::queue<node_t*> q;
-    q.push(root);
-
-    bool encounteredNull = false;
-
-    while (!q.empty()) {
-        node_t* current = q.front();
-        q.pop();
-
-        if (current == nullptr) {
-            encounteredNull = true; // If we encounter a null, all subsequent nodes must also be null
-        } else {
-            if (encounteredNull) {
-                return false; // If we encounter a non-null node after a null, the tree is not complete
-            }
-            q.push(current->L); // Add left child to the queue
-            q.push(current->R); // Add right child to the queue
-        }
-    }
-
-    return true; // If we traverse the entire tree without issues, it is complete
+int countNodes(node_t* root) {
+    if (root == nullptr)
+        return 0;
+    return 1 + countNodes(root->L) + countNodes(root->R);
 }
+
+bool isCompleteUtil(node_t* root, int index, int totalNodes) {
+    if (root == nullptr)
+        return true;
+
+    if (index >= totalNodes)
+        return false;
+
+    return isCompleteUtil(root->L, 2 * index + 1, totalNodes) &&
+           isCompleteUtil(root->R, 2 * index + 2, totalNodes);
+}
+
+bool isCompleteTree(node_t* root) {
+    int totalNodes = countNodes(root);
+    return isCompleteUtil(root, 0, totalNodes);
+}
+
 
 
 void EulerOrder(node_t *n) {
